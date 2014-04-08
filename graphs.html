@@ -7,26 +7,37 @@
   <body>
     <script type="text/javascript">
     $(document).ready(function() {
-        var properties = [
-            { "length": 50, "x":10, "y":15, "color" : "blue"},
-            { "length": 35, "x":20, "y":25, "color" : "yellow"},
-            { "length": 20, "x":30, "y":35, "color" : "green"},
+        // svg rect chart
+        jsonRects = [
+            {"x": 30, "y": 30, "h": 20, "w": 20, "fill" : "green"},
+            {"x": 70, "y": 70, "h": 20, "w": 20, "fill" : "purple"},
+            {"x": 110, "y": 100, "h": 20, "w": 20, "fill" : "red"},
         ];
 
+        var max_x = 0;
+        var max_y = 0;
+        for (var i = 0; i < jsonRects.length; i++) {
+            var temp_x, temp_y;
+            var temp_x = jsonRects[i].x + jsonRects[i].w;
+            var temp_y = jsonRects[i].y + jsonRects[i].h;
+            if ( temp_x >= max_x ) { max_x = temp_x; }
+            if ( temp_y >= max_y ) { max_y = temp_y; }
+        }
+
         svgContainer = d3.select('body').append('svg')
-                         .attr('height', 100)
-                         .attr('width', 100)
+                         .attr('height', max_y + 20)
+                         .attr('width', max_x + 20)
                          .style('border', '1px solid black');
 
         rects = svgContainer.selectAll('rect')
-                    .data(properties)
+                    .data(jsonRects)
                     .enter()
                     .append('rect')
-                    .attr('x', function(d){ return d.x; })
-                    .attr('y', function(d){ return d.y; })
-                    .attr('height', function(d){ return d.length; })
-                    .attr('width', function(d){ return d.length; })
-                    .style('fill', function(d){ return d.color; });
+                    .attr('x', function(d) { return d.x; })
+                    .attr('y', function(d) { return d.y; })
+                    .attr('height', function(d) {return d.h; })
+                    .attr('width', function(d) {return d.w; })
+                    .style('fill', function(d) { return d.fill; });
     });
 
     </script>
