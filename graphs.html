@@ -7,7 +7,11 @@
   <body>
     <script type="text/javascript">
     $(document).ready(function() {
-        var properties = [[50, "blue"], [35, "yellow"], [20, "green"]];
+        var properties = [
+            { "length": 50, "x":10, "y":15, "color" : "blue"},
+            { "length": 35, "x":20, "y":25, "color" : "yellow"},
+            { "length": 20, "x":30, "y":35, "color" : "green"},
+        ];
 
         svgContainer = d3.select('body').append('svg')
                          .attr('height', 100)
@@ -18,11 +22,11 @@
                     .data(properties)
                     .enter()
                     .append('rect')
-                    .attr('x', 30)
-                    .attr('y', 30)
-                    .attr('height', function(d){ return d[0];})
-                    .attr('width', function(d){ return d[0];})
-                    .style('fill', function(d){ return d[1];});
+                    .attr('x', function(d){ return d.x; })
+                    .attr('y', function(d){ return d.y; })
+                    .attr('height', function(d){ return d.length; })
+                    .attr('width', function(d){ return d.length; })
+                    .style('fill', function(d){ return d.color; });
     });
 
     </script>
